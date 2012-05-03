@@ -60,6 +60,18 @@ class DicebagTests(TwiMLTest):
         self.assertTrue("Easy there tiger" in response.data, "App did not " \
                 "return error text, instead: %s" % response.data)
 
+    def test_smsTooManySides(self):
+        response = self.sms("10d1000000")
+        self.assertTwiML(response)
+        self.assertTrue("Easy there tiger" in response.data, "App did not " \
+                "return error text, instead: %s" % response.data)
+
+    def test_smsFailSplit(self):
+        response = self.sms("yodel")
+        self.assertTwiML(response)
+        self.assertTrue("Thanks" in response.data, "App did not return " \
+                "error text, instead: %s" % response.data)
+
     def test_smsWTFInput(self):
         response = self.sms("sko-diddly!")
         self.assertTwiML(response)

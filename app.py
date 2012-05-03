@@ -9,10 +9,11 @@ app = flask.Flask(__name__)
 def sms():
     response, data, dice, sides = twiml.Response(), None, None, None
     try:
-        dice, sides = flask.request.form['Body'].lower().split('d')
+        dice, sides = [int(i) for i in 
+                flask.request.form['Body'].lower().split('d')]
     except:
         response.sms("Thanks for using SMS Dice Bag.  Format query like: 2d6")
-    if dice and sides and (int(dice) > 20 or int(sides) > 20):
+    if dice > 20 or sides > 20:
         response.sms("Easy there tiger.  Let's keep dice and sides under 20.")
     elif dice and sides:
         data = [randint(1, int(sides)) for i in range(0, int(dice))]
