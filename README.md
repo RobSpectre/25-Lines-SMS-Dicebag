@@ -1,54 +1,53 @@
-# 25 Lines - SMS Weather 
+# 25 Lines - SMS Dice Bag 
 
-A Twilio application that returns weather data for your area code in exactly 25
-lines of code.
+A Twilio application that serves as the Dungeon Master's SMS companion,
+providing a text interface to random dice rolling.
 
 [![Build
-Status](https://secure.travis-ci.org/RobSpectre/25-Lines-SMS-Weather.png)]
-(http://travis-ci.org/RobSpectre/25-Lines-SMS-Weather)
+Status](https://secure.travis-ci.org/RobSpectre/25-Lines-SMS-Dicebag.png)]
+(http://travis-ci.org/RobSpectre/25-Lines-SMS-Dicebag)
 
 
 ## Summary
 
-On a flight from LAX to SFO, I issued myself the challenge to build a compelling
-Twilio app in 25 lines or less over the course of the 50 minute flight.  The
-rules I set for myself were:
+A little stressed out one afternoon in the office, I decided to whip up another
+Twilio 25-liner like the [SMS
+Weather](https://github.com/RobSpectre/25-Lines-SMS-Weather) I put together earlier in the week.
+Same rules applied here as the weather app, and I gave myself 50 total minutes
+to complete:
 
 * It had to do something significant.  Couldn't be something silly like
   [Laughotron](http://www.laughotron.com/).
 * Start to finish in *no more* than 25 lines, including whitespace.
 * It had to pass my [PEP8](http://www.python.org/dev/peps/pep-0008/) vim plugin.
   No crazy single-line, more than 80 column shenanigans.
-* Application had to be code complete by the time the Delta attendant started to
-  scream at me for still operating an electronic device.
+* Application had to be code complete by the time [Super Marios Brothers alarm
+  clock](http://www.cutesense.com/detail.php?pID=1545&title=Super-Mario-%26amp%3B--Yoshi-Stainless--Mini-Table-Alarm-Clock)
+  went off.
 * It must withstand a reasonable amount of poor user input - no brittleware.
 
 To accomplish this, I busted out the [Twilio Hackpack for Heroku and
 Flask](https://github.com/RobSpectre/Twilio-Hackpack-for-Heroku-and-Flask) and
-the [Weather Underground API](http://www.wunderground.com/weather/api/)
-to make a super simple SMS weather reporter. 
-
+my [second ed
+DMG](http://www.amazon.com/Dungeon-Masters-Guide-Advanced-Dragons/dp/0880387297).
 
 ## Usage
 
-Text anything to (646) 606-2458 to see it work!
+Text anything to (646) 606-2920 to see it work!
 
 ![Example of it
-working](https://raw.github.com/RobSpectre/25-Lines-SMS-Weather/master/images/usage.png)
+working](https://raw.github.com/RobSpectre/25-Lines-SMS-Dicebag/master/images/usage.png)
 
 
 ## Installation
 
-Step-by-step on how to deploy, configure and develop this app.
+Step-by-step on how to deploy and develop this app.
 
 ### Deploy 
 
-0) Get a developer API key from [Weather
-Underground](http://www.wunderground.com/weather/api/).
-
 1) Grab latest source
 <pre>
-git clone git://github.com/RobSpectre/25-Lines-SMS-Weather.git 
+git clone git://github.com/RobSpectre/25-Lines-SMS-Dicebag.git 
 </pre>
 
 2) Install dependencies
@@ -76,28 +75,7 @@ heroku scale web=1
 python configure.py --account_sid ACxxxxxx --auth_token yyyyyyy -n -N
 </pre>
 
-8) Set your Weather Underground API key in your local and Heroku app environment
-variables.
-<pre>
-export WUNDERGROUND_API_KEY=xxxxxxxxxx
-heroku config:add WUNDERGROUND_API_KEY=xxxxxxxxxx
-</pre>
-
-8) Text the new number and get the weather!
-
-
-### Configuration
-
-This app hinges on your Weather Underground API key being set in your
-environment.  This can be hardcoded into your app by changing the first string
-substitution on line 14:
-
-```python
-path = "http://api.wunderground.com/api/%s/conditions/q/%s.json" \
-        % ("xxxxxxxxxxx", flask.request.form['FromZip'])
-```
-
-Be sure not to expose your key (or any of your sensitive credentials) to a public GitHub repo.
+7) Text the new number and roll your next character!
 
 
 ### Development
@@ -121,7 +99,8 @@ foreman start
 
 ## Testing
 
-Of course its tested.  What is this? 1997?
+Damn straight this dice bag is tested.  We know how important those stat rolls
+are.
 
 <pre>
 make test
