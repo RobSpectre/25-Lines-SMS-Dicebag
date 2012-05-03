@@ -1,25 +1,23 @@
 import os
+from random import randint
 import flask
-import requests
-import simplejson as json
 from twilio import twiml
 app = flask.Flask(__name__)
 
 
-@app.route('/sms', methods=['GET', 'POST'])
+@app.route('/sms', methods=['POST'])
 def sms():
-    response, data = twiml.Response(), None
+    response, data, dice, sides = twiml.Response(), None, None, None
     try:
-        path = "http://api.wunderground.com/api/%s/conditions/q/%s.json" \
-                % (os.environ.get('WUNDERGROUND_API_KEY', None),
-                    flask.request.form['FromZip'])
-        data = json.loads(requests.get(path).text)['current_observation']
+        dice, sides = flask.request.form['Body'].lower().split('d')
     except:
-        response.sms("No weather data could be found.")
+        response.sms("Thanks for using SMS Dice Bag.  Format query like: 2d6")
+    if dice and sides and (int(dice) > 20 or int(sides) > 20):
+        response.sms("Easy there tiger.  Let's keep dice and sides under 20.")
+    elif dice and sides:
+        data = [randint(1, int(sides)) for i in range(1, int(dice))]
     if data:
-        response.sms("Location: %s\n Conditions: %s\n Temp: " \
-            "%s\n Humidity: %s\n" % (data['observation_location']['city'],
-                data['weather'], data['temp_f'], data['relative_humidity']))
+        response.sms("Total: %s  Rolls: %s" % (str(sum(data)), str(data)))
     return str(response)
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))

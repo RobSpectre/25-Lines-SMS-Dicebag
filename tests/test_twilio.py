@@ -1,7 +1,4 @@
 import unittest
-import requests
-from mock import Mock
-from mock import patch
 from .context import app
 
 
@@ -44,26 +41,27 @@ class TwiMLTest(unittest.TestCase):
         return self.app.post(path, data=params)
 
 
-class ExampleTests(TwiMLTest):
-    @patch.object(requests, 'get')
-    def test_sms(self, mock_get):
-        test_file = file('./tests/test_assets/good_response.json')
-        mock_response = Mock()
-        mock_response.text = test_file.read()
-        mock_get.return_value = mock_response 
-        response = self.sms("Test")
+class DicebagTests(TwiMLTest):
+    def test_sms(self):
+        response = self.sms("2d6")
         self.assertTwiML(response)
-        self.assertTrue("Location" in response.data, "App did not return " \
-                "weather information, instead: %s" % response.data)
+        self.assertTrue("Total" in response.data, "App did not return " \
+                "dice roll, instead: %s" % response.data)
+    
+    def test_smsWrongFormat(self):
+        response = self.sms("3x6")
+        self.assertTwiML(response)
+        self.assertTrue("Thanks" in response.data, "App did not return " \
+                "error text, instead: %s" % response.data)
 
-    @patch.object(requests, 'get')
-    def test_smsInvalidLocation(self, mock_get):
-        test_file = file('./tests/test_assets/bad_response.json')
-        mock_response = Mock()
-        mock_response.text = test_file.read()
-        mock_get.return_value = mock_response 
-        response = self.sms("Test")
+    def test_smsTooManyDice(self):
+        response = self.sms("10000d10")
         self.assertTwiML(response)
-        self.assertFalse("Location" in response.data, "App did returned " \
-                "weather information when it shouldn't have: %s" \
-                % response.data)
+        self.assertTrue("Easy there tiger" in response.data, "App did not " \
+                "return error text, instead: %s" % response.data)
+
+    def test_smsWTFInput(self):
+        response = self.sms("sko-diddly!")
+        self.assertTwiML(response)
+        self.assertTrue("Thanks" in response.data, "App did not return " \
+                "error text, instead: %s" % response.data)
