@@ -15,7 +15,7 @@ def sms():
     if dice and sides and (int(dice) > 20 or int(sides) > 20):
         response.sms("Easy there tiger.  Let's keep dice and sides under 20.")
     elif dice and sides:
-        data = [randint(1, int(sides)) for i in range(1, int(dice))]
+        data = [randint(1, int(sides)) for i in range(0, int(dice))]
     if data:
         response.sms("Total: %s  Rolls: %s" % (str(sum(data)), str(data)))
     return str(response)
