@@ -114,3 +114,7 @@ make test
 * [MIT License](http://www.opensource.org/licenses/mit-license.html)
 * Lovingly crafted by [Twilio New
  York](http://www.meetup.com/Twilio/New-York-NY/) 
+
+[![githalytics.com
+alpha](https://cruel-carlota.pagodabox.com/fa3df02d95a43ac0668ea3503d8baa82
+"githalytics.com")](http://githalytics.com/RobSpectre/25-Lines-SMS-Dicebag)
